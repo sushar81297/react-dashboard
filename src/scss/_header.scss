@@ -1,0 +1,51 @@
+@import './variable.scss';
+
+.header-container {
+  height: 4vw;
+  background-color: $secondary-color;
+}
+.menu-container {
+    height: 100vh;
+    width: 12vw;
+    background: $primary-color;
+    color: $secondary-color;
+    text-align: center;
+    .menu-btn {
+        height: 4vw;
+        width: 100%;
+        font-size: 2vw;
+    }
+    .side-menu {
+        text-align: left;
+        li {
+            padding: 1vw;
+            .menu-icon {
+                width: 30%;
+            }
+        }
+    }
+    .menu-active {
+      color: $white-color;
+    }
+    .side-menu li:hover {
+      color: $white-color;
+    }
+    .menu-btn:hover {
+      color: $white-color;
+
+    }
+}
+
+.menu-close-container {
+    @extend .menu-container;
+    text-align: center;
+    width: 5vw;
+    .side-menu {
+    li {       
+        .menu-icon {
+          width: 100%;
+          font-size: 1.5vw;
+      }
+    }
+  }
+}
