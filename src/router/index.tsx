@@ -1,10 +1,14 @@
+import { Route, Routes } from "react-router-dom";
+import DefaultLayout from "@layout/DefaultLayout";
+import { ProtectedRoute } from "./ProtectedRoute";
 import About from '@pages/About';
 import Home from '@pages/Home';
 import Profile from '@pages/Profile';
 import Item from '@pages/Item';
-import { Routes, Route } from 'react-router-dom';
+import Login from "@pages/login";
+import '@style/_common.scss';
 
-export default function AppContent() {
+export default function RouterRoute() {
   const routes = [
     { path: '/home', name: 'Home', element: Home },
     { path: '/about', name: 'Home', element: About },
@@ -13,17 +17,18 @@ export default function AppContent() {
   ]
   return (
     <Routes>
+      <Route path="/" element={<Login />} />
       {routes.map((route, idx) => {
         return (
           route.element && (
             <Route
               key={idx}
-              element={<route.element />}
               path={route.path}
+              element={<ProtectedRoute><DefaultLayout><route.element /></DefaultLayout></ProtectedRoute>}
             />
           )
         )
       })}
     </Routes>
-  )
+  );
 }

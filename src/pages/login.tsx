@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import {
     Button,
@@ -20,7 +19,7 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const normFile = (e: any) => {
+const normFile = (e: { fileList: unknown; }) => {
     if (Array.isArray(e)) {
         return e;
     }
