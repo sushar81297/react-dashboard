@@ -1,0 +1,18 @@
+@import './_variable.scss';
+
+.header-menu {
+    background-color: $secondary-color;
+}
+
+.login-container {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-layout .ant-layout-sider-zero-width-trigger {
+    top: 8px;
+    background: transparent;
+    color: $primary-color;
+    font-size: 3vw;
+}

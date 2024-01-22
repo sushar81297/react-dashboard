@@ -1,9 +1,14 @@
-import Header from '@layout/Header';
+import { Route, Routes } from "react-router-dom";
+import DefaultLayout from "@layout/DefaultLayout";
+import Login from "@pages/login";
+import '@style/_common.scss';
 
-export default function App() {
+export default function RouterRoutes() {
   return (
-    <>
-      <Header />
-    </>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="*" element={<DefaultLayout />} />
+    </Routes>
   );
 }
+
