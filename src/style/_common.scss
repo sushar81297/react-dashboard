@@ -16,3 +16,7 @@
     color: $primary-color;
     font-size: 3vw;
 }
+
+:where(.css-dev-only-do-not-override-zl9ks2) a {
+    color: inherit;
+}

@@ -1,12 +1,13 @@
 import { Dropdown, Breadcrumb, Avatar, Col, Row, Input } from 'antd';
 import type { MenuProps } from 'antd';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, TeamOutlined, SearchOutlined, LogoutOutlined } from '@ant-design/icons';
 
 export default function HeaderMenu() {
+  const navigate = useNavigate();
   const pathname = useLocation().pathname.split('/')[1];
   const handleLogout = () => {
-    console.log('Logging out...');
+    navigate('/');
   };
 
   const items: MenuProps['items'] = [

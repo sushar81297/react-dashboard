@@ -1,7 +1,10 @@
 import { Navigate } from "react-router-dom";
+import { ReactNode } from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const ProtectedRoute = ({ children }: any) => {
+interface Props {
+    children : ReactNode
+}
+export const ProtectedRoute = ({ children }: Props) => {
     const isLogin = false;
     if (isLogin) return <Navigate to="/" />;
 

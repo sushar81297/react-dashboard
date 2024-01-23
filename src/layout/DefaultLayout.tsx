@@ -1,9 +1,13 @@
+import { ReactNode } from "react";
 import { Layout } from 'antd';
 import SidebarNav from '@components/SidebarNav';
 import HeaderMenu from '@components/HeaderMenu';
 const { Content } = Layout;
+interface Props {
+  children: ReactNode
+}
 
-export default function Main({children} : any) {
+export default function DefaultLayout({children}: Props) {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <SidebarNav />
