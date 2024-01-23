@@ -1,111 +1,73 @@
-import { PlusOutlined } from '@ant-design/icons';
 import {
     Button,
-    Cascader,
     Checkbox,
-    ColorPicker,
-    DatePicker,
     Form,
-    Input,
-    InputNumber,
-    Radio,
-    Select,
-    Slider,
-    Switch,
-    TreeSelect,
-    Upload,
+    Input
 } from 'antd';
-
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
-
-const normFile = (e: { fileList: unknown; }) => {
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e?.fileList;
-};
+import {  UserOutlined, LockOutlined } from '@ant-design/icons';
+import logoImg from '@assets/images/logo_image.png';
+import { Link } from 'react-router-dom';
 
 export default function FormDisabledDemo() {
+    const onFinish = () => {
+    console.log('Received values of form: ');
+    };
     return (
         <div className="login-container">
+            <div>
+                <img src={logoImg}/>
+                <h2>Sign in</h2>
+                <p>Welcome !! Please enter your details below to sign in.</p>
+            </div>
             <Form
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 14 }}
-                layout="horizontal"
-                style={{ maxWidth: 600 }}
+                name="normal_login"
+                className="login-form"
+                initialValues={{
+                    remember: true,
+                }}
+                onFinish={onFinish}
             >
-                <Form.Item label="Checkbox" name="disabled" valuePropName="checked">
-                    <Checkbox>Checkbox</Checkbox>
+                <Form.Item
+                    name="username"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Username!',
+                        },
+                    ]}
+                >
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
                 </Form.Item>
-                <Form.Item label="Radio">
-                    <Radio.Group>
-                        <Radio value="apple"> Apple </Radio>
-                        <Radio value="pear"> Pear </Radio>
-                    </Radio.Group>
-                </Form.Item>
-                <Form.Item label="Input">
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Select">
-                    <Select>
-                        <Select.Option value="demo">Demo</Select.Option>
-                    </Select>
-                </Form.Item>
-                <Form.Item label="TreeSelect">
-                    <TreeSelect
-                        treeData={[
-                            { title: 'Light', value: 'light', children: [{ title: 'Bamboo', value: 'bamboo' }] },
-                        ]}
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Password!',
+                        },
+                    ]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Password"
                     />
                 </Form.Item>
-                <Form.Item label="Cascader">
-                    <Cascader
-                        options={[
-                            {
-                                value: 'zhejiang',
-                                label: 'Zhejiang',
-                                children: [
-                                    {
-                                        value: 'hangzhou',
-                                        label: 'Hangzhou',
-                                    },
-                                ],
-                            },
-                        ]}
-                    />
+                <Form.Item>
+                    <Form.Item name="remember" valuePropName="checked" noStyle>
+                        <Checkbox>Remember me</Checkbox>
+                    </Form.Item>
+
+                    <a className="login-form-forgot" href="">
+                        Forgot password
+                    </a>
                 </Form.Item>
-                <Form.Item label="DatePicker">
-                    <DatePicker />
-                </Form.Item>
-                <Form.Item label="RangePicker">
-                    <RangePicker />
-                </Form.Item>
-                <Form.Item label="InputNumber">
-                    <InputNumber />
-                </Form.Item>
-                <Form.Item label="TextArea">
-                    <TextArea rows={4} />
-                </Form.Item>
-                <Form.Item label="Switch" valuePropName="checked">
-                    <Switch />
-                </Form.Item>
-                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
-                    <Upload action="/upload.do" listType="picture-card">
-                        <button style={{ border: 0, background: 'none' }} type="button">
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                        </button>
-                    </Upload>
-                </Form.Item>
-                <Form.Item label="Button">
-                    <Button>Button</Button>
-                </Form.Item>
-                <Form.Item label="Slider">
-                    <Slider />
-                </Form.Item>
-                <Form.Item label="ColorPicker">
-                    <ColorPicker />
+
+                <Form.Item>
+                    <Button htmlType="submit" className="login-form-button">
+                        Log in
+                    </Button>
+                    Or <Link to="/register">register now!</Link>
                 </Form.Item>
             </Form>
         </div>

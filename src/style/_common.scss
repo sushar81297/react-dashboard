@@ -4,12 +4,47 @@
     background-color: $secondary-color;
 }
 
-.login-container {
-    width: 50%;
-    margin: 0 auto;
+// logo css
+.logo {
     text-align: center;
 }
 
+// login form 
+.login-container {
+    width: 30vw;
+    margin: 0 auto;
+    margin-top: 5%;
+    padding: 2vw;
+    text-align: center;
+    color: $primary-color;
+    border: 1px solid transparent;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    img {
+        width: 12vw;
+    }
+    h2 {
+        margin: 0;
+        color: $primary-color;
+    }
+    p{
+        color: $primary-color;
+    }
+    .login-form-button {
+        background: $primary-color;
+        color: $white-color;
+    }
+    
+    :where(.css-dev-only-do-not-override-zl9ks2).ant-checkbox-checked .ant-checkbox-inner {
+        background: $primary-color;
+        border-color: $primary-color;
+    }
+    :where(.css-dev-only-do-not-override-zl9ks2).ant-form-item .ant-form-item-control-input {
+        text-align: left;
+    }
+}
+//end login form
+
+// side bar icon design
 :where(.css-dev-only-do-not-override-zl9ks2).ant-layout .ant-layout-sider-zero-width-trigger {
     top: 8px;
     background: transparent;
@@ -17,6 +52,28 @@
     font-size: 3vw;
 }
 
+// sidebar item color
 :where(.css-dev-only-do-not-override-zl9ks2) a {
     color: inherit;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title, 
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-light>.ant-menu .ant-menu-submenu-selected >.ant-menu-submenu-title {
+    color: $primary-color;
+    transition: 0.15s padding ease-out, 0.15s margin ease-out, 0.15s border ease-out;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-light .ant-menu-item-selected {
+    background-color: $secondary-color;
+    color: $primary-color;
+    transition: 0.15s padding ease-out, 0.15s margin ease-out, 0.15s border ease-out;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-layout .ant-layout-sider-trigger {
+    background-color: $secondary-color;
+}
+.ant-menu-submenu-title {
+    color: $white-color !important;
+}
+
+// menu bar icon size 
+:where(.css-dev-only-do-not-override-zl9ks2).ant-btn.ant-btn-icon-only .anticon {
+    font-size: 25px;
 }

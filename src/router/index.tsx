@@ -18,7 +18,7 @@ export default function RouterRoute() {
     { path: 'item', name: 'Item', element: Item },
     { path: 'item/create', name: 'CreateItem', element: CreateItem },
     { path: 'user', name: 'User', element: User },
-    { path: 'user/create', name: 'CreateItem', element: CreateUser }
+    { path: 'user/add', name: 'CreateItem', element: CreateUser }
     // { path: 'item', name: 'Home', element: Item,
     //   children: [
     //     { path: 'create', name: 'Home', element: CreateItem },
