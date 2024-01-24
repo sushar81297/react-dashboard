@@ -1,67 +1,79 @@
-import { Dropdown, Breadcrumb, Avatar, Col, Row, Input, Button } from 'antd';
-import type { MenuProps } from 'antd';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { 
-  UserOutlined, 
-  TeamOutlined, 
-  SearchOutlined, 
+import { Avatar, Breadcrumb, Button, Col, Dropdown, Input, Row } from "antd";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
   LogoutOutlined,
   MenuFoldOutlined,
-  MenuUnfoldOutlined
- } from '@ant-design/icons';
+  MenuUnfoldOutlined,
+  SearchOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+
+import type { MenuProps } from "antd";
 
 interface Props {
   collapsed: boolean;
   setCollapsed: (arg0: boolean) => void;
 }
 
-export default function HeaderMenu({collapsed, setCollapsed} : Props) {
+export default function HeaderMenu({ collapsed, setCollapsed }: Props) {
   const navigate = useNavigate();
-  const pathname = useLocation().pathname.split('/')[1];
+  const pathname = useLocation().pathname.split("/")[1];
   const handleLogout = () => {
-    navigate('/');
+    navigate("/login");
   };
 
-  const items: MenuProps['items'] = [
+  const items: MenuProps["items"] = [
     {
-      key: '1',
+      key: "1",
       icon: <TeamOutlined />,
-      label: <Link to="/profile">Profile</Link>
+      label: <Link to="/profile">Profile</Link>,
     },
     {
-      key: '2',
+      key: "2",
       icon: <LogoutOutlined />,
-      label: <span onClick={handleLogout}>Logout</span>
-    }
+      label: <span onClick={handleLogout}>Logout</span>,
+    },
   ];
 
   return (
     <>
-      <Row style={{ padding: '16px', background: '#ffffff' }}>
-        <Col span={12} md={14}><Breadcrumb items={[{ title: <Link to="/home">Home</Link> }, { title: pathname }]} /></Col>
-        <Col span={12} md={6}>
+      <Row style={{ padding: "16px", background: "#ffffff" }}>
+        <Col span={10}>
+          <Breadcrumb
+            items={[
+              { title: <Link to="/home">Home</Link> },
+              { title: pathname },
+            ]}
+          />
+        </Col>
+        <Col span={6}>
           <Input
             className="header-search"
             placeholder="Type here..."
             prefix={<SearchOutlined />}
           />
         </Col>
-        <Col span={12} md={3} style={{ direction: 'rtl' }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              paddingTop: 0
-            }}
-          />
+        <Col span={8} style={{ direction: "rtl" }}>
+          <Row>
+            <Col span={4}>
+              <Dropdown menu={{ items }} placement="bottomRight" arrow>
+                <Avatar icon={<UserOutlined />} style={{ cursor: "pointer" }} />
+              </Dropdown>
+            </Col>
+            <Col span={4}>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{
+                  paddingTop: 0,
+                }}
+              />
+            </Col>
+          </Row>
         </Col>
-        <Col span={12} md={1} style={{ direction: 'rtl' }}>
-          <Dropdown menu={{ items }} placement="bottomRight" arrow>
-            <Avatar icon={<UserOutlined />} style={{ cursor: 'pointer' }} />
-          </Dropdown>
-        </Col>
-      </Row >
+      </Row>
     </>
   );
 }

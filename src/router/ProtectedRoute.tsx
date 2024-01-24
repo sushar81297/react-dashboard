@@ -1,12 +1,16 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+
 import { ReactNode } from "react";
 
 interface Props {
-    children : ReactNode
+  children: ReactNode;
 }
 export const ProtectedRoute = ({ children }: Props) => {
-    const isLogin = false;
-    if (isLogin) return <Navigate to="/" />;
+  const pathname = useLocation().pathname;
+  const isLogin = true;
 
-    return children;
+  if (!isLogin) return <Navigate to="/login" />;
+  if (pathname === "/") return <Navigate to="/home" />;
+
+  return children;
 };

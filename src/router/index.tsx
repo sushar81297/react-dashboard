@@ -1,30 +1,32 @@
+import "@style/_common.scss";
+
 import { Route, Routes } from "react-router-dom";
+
+import About from "@pages/About";
+import CreateItem from "@pages/Item/Create";
+import CreateUser from "@pages/User/Create";
 import DefaultLayout from "@layout/DefaultLayout";
+import Home from "@pages/Home";
+import Item from "@pages/Item/index";
+import Profile from "@pages/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
-import About from '@pages/About';
-import Home from '@pages/Home';
-import Profile from '@pages/Profile';
-import Item from '@pages/Item/index';
-import CreateItem from '@pages/Item/Create';
-import User from '@pages/User/index';
-import CreateUser from '@pages/User/Create';
-import '@style/_common.scss';
+import User from "@pages/User/index";
 
 export default function RouterRoute() {
   const routes = [
-    { path: 'home', name: 'Home', element: Home },
-    { path: 'about', name: 'About', element: About },
-    { path: 'profile', name: 'Profile', element: Profile },
-    { path: 'item', name: 'Item', element: Item },
-    { path: 'item/create', name: 'CreateItem', element: CreateItem },
-    { path: 'user', name: 'User', element: User },
-    { path: 'user/add', name: 'CreateItem', element: CreateUser }
+    { path: "home", name: "Home", element: Home },
+    { path: "about", name: "About", element: About },
+    { path: "profile", name: "Profile", element: Profile },
+    { path: "item", name: "Item", element: Item },
+    { path: "item/create", name: "CreateItem", element: CreateItem },
+    { path: "user", name: "User", element: User },
+    { path: "user/create", name: "CreateItem", element: CreateUser },
     // { path: 'item', name: 'Home', element: Item,
     //   children: [
     //     { path: 'create', name: 'Home', element: CreateItem },
     //     { path: 'edit', name: 'Home', element: EditItem },]
     // }
-  ]
+  ];
   return (
     <ProtectedRoute>
       <DefaultLayout>
@@ -35,10 +37,10 @@ export default function RouterRoute() {
                 <Route
                   key={idx}
                   path={route.path}
-                  element={ <route.element />}
+                  element={<route.element />}
                 />
               )
-            )
+            );
           })}
         </Routes>
       </DefaultLayout>

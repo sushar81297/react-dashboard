@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, MessageOutlined, UserOutlined } from "@ant-design/icons";
 
 import ButtonBox from "@components/ButtonBox";
 import CheckBox from "@components/CheckBox";
@@ -7,25 +7,26 @@ import InputField from "@components/InputField";
 import logoImg from "@assets/images/logo_image.png";
 import { useNavigate } from "react-router-dom";
 
-interface LoginForm {
+interface RegisterForm {
   username?: string;
+  email?: string;
   password?: string;
+  confirmPassword?: string;
   remember?: string;
 }
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
-  const onFinish = (value: LoginForm) => {
+  const onFinish = (value: RegisterForm) => {
     console.log("Received values of form: ", value);
-    console.log("helloing");
-    navigate("/home");
+    navigate("/login");
   };
   return (
     <div className="login-container">
       <div>
         <img src={logoImg} />
-        <h2>Sign in</h2>
-        <p>Welcome !! Please enter your details below to sign in.</p>
+        <h2>Sign Up</h2>
+        <p>Welcome !! Please enter your details below to sign up.</p>
       </div>
       <Form
         name="normal_login"
@@ -41,6 +42,14 @@ export default function Login() {
           placeholder="Username"
         />
         <InputField
+          Icon={MessageOutlined}
+          name="email"
+          type="email"
+          required={true}
+          requiredMessage="Please input your Email!"
+          placeholder="Email"
+        />
+        <InputField
           Icon={LockOutlined}
           name="password"
           required={true}
@@ -48,18 +57,27 @@ export default function Login() {
           requiredMessage="Please input your Password!"
           placeholder="Password"
         />
+
+        <InputField
+          Icon={LockOutlined}
+          name="confirmPassword"
+          required={true}
+          type="password"
+          requiredMessage="Please input your Confirm Password!"
+          placeholder="Confirm Password"
+        />
         <CheckBox name="remember" checked="checked" text="Remember me?" />
 
         <ButtonBox
-          btnType="submit"
+          type="submit"
           formCss="button-container"
-          styleClass="button-container btn-green"
-          text="Login"
+          styleClass="button-container login-form-button"
+          text="Register"
         />
         <p>
-          Don't have an account?
-          <a href="/register" className="signup">
-            Sign Up
+          Already have an account?
+          <a href="/login" className="signup">
+            Sign In
           </a>
         </p>
       </Form>

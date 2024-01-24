@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import type { TableColumnsType, TableProps } from 'antd';
-import {
-  Tag,
-  Button,
-  Space,
-  Table
-} from "antd";
+import { Space, Table, Tag } from "antd";
+import type { TableColumnsType, TableProps } from "antd";
 
-type OnChange = NonNullable<TableProps<DataType>['onChange']>;
+import { useState } from "react";
+
+type OnChange = NonNullable<TableProps<DataType>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
 
 type GetSingle<T> = T extends (infer U)[] ? U : never;
@@ -22,29 +18,29 @@ interface DataType {
 
 const data: DataType[] = [
   {
-    key: '1',
-    name: 'John Brown',
+    key: "1",
+    name: "John Brown",
     age: 32,
-    address: 'New York No. 1 Lake Park',
+    address: "New York No. 1 Lake Park",
   },
   {
-    key: '2',
-    name: 'Jim Green',
+    key: "2",
+    name: "Jim Green",
     age: 42,
-    address: 'London No. 1 Lake Park',
+    address: "London No. 1 Lake Park",
   },
   {
-    key: '3',
-    name: 'Joe Black',
+    key: "3",
+    name: "Joe Black",
     age: 32,
-    address: 'Sydney No. 1 Lake Park',
+    address: "Sydney No. 1 Lake Park",
   },
   {
-    key: '4',
-    name: 'Jim Red',
+    key: "4",
+    name: "Jim Red",
     age: 32,
-    address: 'London No. 2 Lake Park',
-  }
+    address: "London No. 2 Lake Park",
+  },
 ];
 
 export default function Home() {
@@ -67,46 +63,46 @@ export default function Home() {
 
   const setAgeSort = () => {
     setSortedInfo({
-      order: 'descend',
-      columnKey: 'age',
+      order: "descend",
+      columnKey: "age",
     });
   };
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
       filters: [
-        { text: 'Joe', value: 'Joe' },
-        { text: 'Jim', value: 'Jim' },
+        { text: "Joe", value: "Joe" },
+        { text: "Jim", value: "Jim" },
       ],
       filteredValue: filteredInfo.name || null,
       onFilter: (value: string, record) => record.name.includes(value),
       sorter: (a, b) => a.name.length - b.name.length,
-      sortOrder: sortedInfo.columnKey === 'name' ? sortedInfo.order : null,
+      sortOrder: sortedInfo.columnKey === "name" ? sortedInfo.order : null,
       ellipsis: true,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
       sorter: (a, b) => a.age - b.age,
-      sortOrder: sortedInfo.columnKey === 'age' ? sortedInfo.order : null,
+      sortOrder: sortedInfo.columnKey === "age" ? sortedInfo.order : null,
       ellipsis: true,
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
       filters: [
-        { text: 'London', value: 'London' },
-        { text: 'New York', value: 'New York' },
+        { text: "London", value: "London" },
+        { text: "New York", value: "New York" },
       ],
       filteredValue: filteredInfo.address || null,
       onFilter: (value: string, record) => record.address.includes(value),
       sorter: (a, b) => a.address.length - b.address.length,
-      sortOrder: sortedInfo.columnKey === 'address' ? sortedInfo.order : null,
+      sortOrder: sortedInfo.columnKey === "address" ? sortedInfo.order : null,
       ellipsis: true,
     },
   ];
@@ -118,34 +114,34 @@ export default function Home() {
     address: string;
     tags: string[];
   }
-  
-  const columns2: TableProps<DataType>['columns'] = [
+
+  const columns2: TableProps<DataType>["columns"] = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
+      title: "Tags",
+      key: "tags",
+      dataIndex: "tags",
       render: (_, { tags }) => (
         <>
           {tags.map((tag) => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
+            let color = tag.length > 5 ? "geekblue" : "green";
+            if (tag === "loser") {
+              color = "volcano";
             }
             return (
               <Tag color={color} key={tag}>
@@ -157,8 +153,8 @@ export default function Home() {
       ),
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: "Action",
+      key: "action",
       render: (_, record) => (
         <Space size="middle">
           <a>Invite {record.name}</a>
@@ -167,45 +163,34 @@ export default function Home() {
       ),
     },
   ];
-  
+
   const data2: DataType[] = [
     {
-      key: '1',
-      name: 'John Brown',
+      key: "1",
+      name: "John Brown",
       age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
+      address: "New York No. 1 Lake Park",
+      tags: ["nice", "developer"],
     },
     {
-      key: '2',
-      name: 'Jim Green',
+      key: "2",
+      name: "Jim Green",
       age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
+      address: "London No. 1 Lake Park",
+      tags: ["loser"],
     },
     {
-      key: '3',
-      name: 'Joe Black',
+      key: "3",
+      name: "Joe Black",
       age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
+      address: "Sydney No. 1 Lake Park",
+      tags: ["cool", "teacher"],
     },
   ];
-  
 
   return (
     <>
-      <Space style={{ marginBottom: 16 }}>
-        <Button onClick={setAgeSort}>Sort age</Button>
-        <Button onClick={clearFilters}>Clear filters</Button>
-        <Button onClick={clearAll}>Clear filters and sorters</Button>
-      </Space>
       <Table columns={columns} dataSource={data} onChange={handleChange} />
-
-      <Table columns={columns2} dataSource={data2} />
-
-      <Table columns={columns} dataSource={data} onChange={handleChange} />
-
     </>
   );
 }
