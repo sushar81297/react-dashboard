@@ -13,9 +13,14 @@ const { Sider } = Layout;
 
 interface Props {
   collapsed: boolean;
+  themeColor: {
+    primaryColor: string;
+    secondaryColor: string;
+    whiteColor: string;
+  };
 }
 
-export default function Sidebar({ collapsed }: Props) {
+export default function Sidebar({ collapsed, themeColor }: Props) {
   let openkeys = useLocation().pathname;
   const pathname = useLocation().pathname;
   if (openkeys.split("/").length > 2) openkeys = `/${openkeys.split("/")[1]}`;
@@ -63,11 +68,11 @@ export default function Sidebar({ collapsed }: Props) {
     },
   ];
   return (
-    // <Sider breakpoint="lg" width={250} style={{ background: '#1F3F49'}} collapsedWidth="0" collapsible collapsed={collapsed}>
+    // <Sider breakpoint="lg" width={250} style={{ background: primaryColor}} collapsedWidth="0" collapsible collapsed={collapsed}>
     <Sider
       breakpoint="lg"
       width={250}
-      style={{ background: "#1F3F49" }}
+      style={{ background: themeColor.primaryColor }}
       collapsible
       collapsed={collapsed}
     >
@@ -79,7 +84,11 @@ export default function Sidebar({ collapsed }: Props) {
         defaultOpenKeys={[openkeys]}
         defaultSelectedKeys={[pathname]}
         mode="inline"
-        style={{ padding: "10px", background: "#1F3F49", color: "#ffffff" }}
+        style={{
+          padding: "10px",
+          background: themeColor.primaryColor,
+          color: themeColor.whiteColor,
+        }}
         items={menuItems}
       />
     </Sider>

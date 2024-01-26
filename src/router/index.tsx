@@ -1,6 +1,6 @@
 import "@style/_common.scss";
 
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 
 import About from "@pages/About";
 import CreateItem from "@pages/Item/Create";
@@ -17,31 +17,47 @@ export default function RouterRoute() {
     { path: "home", name: "Home", element: Home },
     { path: "about", name: "About", element: About },
     { path: "profile", name: "Profile", element: Profile },
-    { path: "item", name: "Item", element: Item },
-    { path: "item/create", name: "CreateItem", element: CreateItem },
-    { path: "user", name: "User", element: User },
-    { path: "user/create", name: "CreateItem", element: CreateUser },
-    // { path: 'item', name: 'Home', element: Item,
-    //   children: [
-    //     { path: 'create', name: 'Home', element: CreateItem },
-    //     { path: 'edit', name: 'Home', element: EditItem },]
-    // }
+    {
+      path: "user",
+      name: "User",
+      element: Outlet,
+      children: [
+        { path: "", name: "User", element: User },
+        { path: "create", name: "Home", element: CreateUser },
+      ],
+    },
+    {
+      path: "item",
+      name: "Item",
+      element: Outlet,
+      children: [
+        { path: "", name: "Item", element: Item },
+        { path: "create", name: "CreateItem", element: CreateItem },
+      ],
+    },
   ];
   return (
     <ProtectedRoute>
       <DefaultLayout>
         <Routes>
-          {routes.map((route, idx) => {
-            return (
+          {routes.map(
+            (route, idx) =>
               route.element && (
-                <Route
-                  key={idx}
-                  path={route.path}
-                  element={<route.element />}
-                />
+                <Route key={idx} path={route.path} element={<route.element />}>
+                  {route.children &&
+                    route.children.map(
+                      (childRoute, childIdx) =>
+                        childRoute.element && (
+                          <Route
+                            key={childIdx}
+                            path={childRoute.path}
+                            element={<childRoute.element />}
+                          />
+                        )
+                    )}
+                </Route>
               )
-            );
-          })}
+          )}
         </Routes>
       </DefaultLayout>
     </ProtectedRoute>

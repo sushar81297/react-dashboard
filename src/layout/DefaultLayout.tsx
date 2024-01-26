@@ -12,19 +12,54 @@ interface Props {
 
 export default function DefaultLayout({ children }: Props) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(true);
+
+  // Theme Color
+  const primaryColor = "#1F3F49";
+  const secondaryColor = "#488A99";
+  const whiteColor = "#ffffff";
+  document.documentElement.style.setProperty("--primary-color", primaryColor);
+  document.documentElement.style.setProperty(
+    "--secondary-color",
+    secondaryColor
+  );
+  document.documentElement.style.setProperty("--bg-color", whiteColor);
+
+  const themeColor = {
+    primaryColor,
+    secondaryColor,
+    whiteColor,
+  };
+
   useEffect(() => {
-    if (window.innerWidth < 992) setCollapsed(true);
-    else setCollapsed(false);
+    handleWindowResize();
     window.addEventListener("resize", () => {
-      if (window.innerWidth < 992) setCollapsed(true);
-      else setCollapsed(false);
+      handleWindowResize();
+    });
+    return window.removeEventListener("resize", () => {
+      handleWindowResize();
     });
   }, []);
+
+  const handleWindowResize = () => {
+    if (window.innerWidth < 992) {
+      setCollapsed(true);
+      setShowMenu(false);
+    } else {
+      setCollapsed(false);
+      setShowMenu(true);
+    }
+  };
   return (
     <Layout style={{ minHeight: "97vh" }}>
-      <SidebarNav collapsed={collapsed} />
+      <SidebarNav collapsed={collapsed} themeColor={themeColor} />
       <Layout className="site-layout">
-        <HeaderMenu collapsed={collapsed} setCollapsed={setCollapsed} />
+        <HeaderMenu
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+          showMenu={showMenu}
+          themeColor={themeColor}
+        />
         <Content style={{ margin: "16px" }}>
           <div className="content-container">{children}</div>
         </Content>

@@ -13,10 +13,21 @@ import type { MenuProps } from "antd";
 
 interface Props {
   collapsed: boolean;
+  showMenu: boolean;
+  themeColor: {
+    primaryColor: string;
+    secondaryColor: string;
+    whiteColor: string;
+  };
   setCollapsed: (arg0: boolean) => void;
 }
 
-export default function HeaderMenu({ collapsed, setCollapsed }: Props) {
+export default function HeaderMenu({
+  collapsed,
+  showMenu,
+  themeColor,
+  setCollapsed,
+}: Props) {
   const navigate = useNavigate();
   const pathname = useLocation().pathname.split("/")[1];
   const handleLogout = () => {
@@ -38,7 +49,7 @@ export default function HeaderMenu({ collapsed, setCollapsed }: Props) {
 
   return (
     <>
-      <Row style={{ padding: "16px", background: "#ffffff" }}>
+      <Row style={{ padding: "16px", background: themeColor.whiteColor }}>
         <Col span={10}>
           <Breadcrumb
             items={[
@@ -62,14 +73,18 @@ export default function HeaderMenu({ collapsed, setCollapsed }: Props) {
               </Dropdown>
             </Col>
             <Col span={4}>
-              <Button
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
-                style={{
-                  paddingTop: 0,
-                }}
-              />
+              {showMenu && (
+                <Button
+                  type="text"
+                  icon={
+                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                  }
+                  onClick={() => setCollapsed(!collapsed)}
+                  style={{
+                    paddingTop: 0,
+                  }}
+                />
+              )}
             </Col>
           </Row>
         </Col>
