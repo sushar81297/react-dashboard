@@ -18,6 +18,11 @@ export default function DefaultLayout({ children }: Props) {
   const primaryColor = "#1F3F49";
   const secondaryColor = "#488A99";
   const whiteColor = "#ffffff";
+
+  // const primaryColor = "#A30962";
+  // const secondaryColor = "#E6007E";
+  // const whiteColor = "#ffffff";
+
   document.documentElement.style.setProperty("--primary-color", primaryColor);
   document.documentElement.style.setProperty(
     "--secondary-color",
