@@ -77,7 +77,6 @@ export default function App() {
   const data: DataType[] = dataObj.data;
 
   const confirm = (key: string) => {
-    console.log(key, "key");
     Modal.confirm({
       title: "Delete Confirmation",
       content: "Are you sure want to delete!!",
