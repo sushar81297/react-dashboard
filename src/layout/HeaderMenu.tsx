@@ -1,5 +1,5 @@
-import { Avatar, Breadcrumb, Button, Col, Dropdown, Input, Row } from "antd";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Avatar, Button, Col, Dropdown, Input, Row } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
@@ -13,7 +13,6 @@ import type { MenuProps } from "antd";
 
 interface Props {
   collapsed: boolean;
-  showMenu: boolean;
   themeColor: {
     primaryColor: string;
     secondaryColor: string;
@@ -24,12 +23,10 @@ interface Props {
 
 export default function HeaderMenu({
   collapsed,
-  showMenu,
   themeColor,
   setCollapsed,
 }: Props) {
   const navigate = useNavigate();
-  const pathname = useLocation().pathname.split("/")[1];
   const handleLogout = () => {
     navigate("/login");
   };
@@ -51,11 +48,13 @@ export default function HeaderMenu({
     <>
       <Row style={{ padding: "16px", background: themeColor.whiteColor }}>
         <Col span={10}>
-          <Breadcrumb
-            items={[
-              { title: <Link to="/home">Home</Link> },
-              { title: pathname },
-            ]}
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              paddingTop: 0,
+            }}
           />
         </Col>
         <Col span={6}>
@@ -71,20 +70,6 @@ export default function HeaderMenu({
               <Dropdown menu={{ items }} placement="bottomRight" arrow>
                 <Avatar icon={<UserOutlined />} style={{ cursor: "pointer" }} />
               </Dropdown>
-            </Col>
-            <Col span={4}>
-              {showMenu && (
-                <Button
-                  type="text"
-                  icon={
-                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                  }
-                  onClick={() => setCollapsed(!collapsed)}
-                  style={{
-                    paddingTop: 0,
-                  }}
-                />
-              )}
             </Col>
           </Row>
         </Col>

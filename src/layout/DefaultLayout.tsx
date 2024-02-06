@@ -1,7 +1,8 @@
+import { Breadcrumb, Layout } from "antd";
+import { Link, useLocation } from "react-router-dom";
 import { ReactNode, useEffect, useState } from "react";
 
 import HeaderMenu from "./HeaderMenu";
-import { Layout } from "antd";
 import SidebarNav from "./SidebarNav";
 
 const { Content } = Layout;
@@ -11,8 +12,8 @@ interface Props {
 }
 
 export default function DefaultLayout({ children }: Props) {
+  const pathname = useLocation().pathname.split("/")[1];
   const [collapsed, setCollapsed] = useState<boolean>(false);
-  const [showMenu, setShowMenu] = useState<boolean>(true);
 
   // Theme Color
   const primaryColor = "#1F3F49";
@@ -47,13 +48,8 @@ export default function DefaultLayout({ children }: Props) {
   }, []);
 
   const handleWindowResize = () => {
-    if (window.innerWidth < 992) {
-      setCollapsed(true);
-      setShowMenu(false);
-    } else {
-      setCollapsed(false);
-      setShowMenu(true);
-    }
+    if (window.innerWidth < 992) setCollapsed(true);
+    else setCollapsed(false);
   };
   return (
     <Layout style={{ minHeight: "97vh" }}>
@@ -62,10 +58,15 @@ export default function DefaultLayout({ children }: Props) {
         <HeaderMenu
           collapsed={collapsed}
           setCollapsed={setCollapsed}
-          showMenu={showMenu}
           themeColor={themeColor}
         />
         <Content style={{ margin: "16px" }}>
+          <Breadcrumb
+            items={[
+              { title: <Link to="/home">Home</Link> },
+              { title: pathname },
+            ]}
+          />
           <div className="content-container">{children}</div>
         </Content>
       </Layout>

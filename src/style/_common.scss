@@ -122,6 +122,12 @@
 .ant-menu-submenu-title {
   color: $white-color !important;
 }
+.ant-layout-sider-trigger {
+  background-color: $primary-color !important;
+  span {
+    display: none;
+  }
+}
 
 // menu bar icon size
 :where(.css-dev-only-do-not-override-zl9ks2).ant-btn.ant-btn-icon-only

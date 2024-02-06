@@ -1,28 +1,25 @@
 import { Button, Modal, Space, Table, Tag } from "antd";
+import { useEffect, useState } from "react";
 
-import ButtonBox from "@components/ButtonBox";
-import DatePickerBox from "@components/DatePickerBox";
-import { Form } from "antd";
-import InputField from "@components/InputField";
 import type { TableProps } from "antd";
+import UserForm from "@components/UserForm";
 import dataObj from "@api/setupData.json";
-import { useState } from "react";
+import { dateFormat } from "@utils/constant.ts";
+import dayjs from "dayjs";
 
 interface DataType {
+  remember: boolean;
+  date: dayjs.Dayjs;
   key: string;
   name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-interface userForm {
-  username?: string;
-  password?: string;
-  datepicker?: string;
+  role: string;
+  email: string;
 }
 
 export default function App() {
   const [visible, setVisible] = useState(false);
+  const [updateData, setUpdateData] = useState({} as userForm);
+  const [data, setData] = useState([] as DataType[]);
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Name",
@@ -31,32 +28,25 @@ export default function App() {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      // render: (date) => <>{dayjs(date, dateFormat)}</>,
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
+      title: "Role",
+      key: "role",
+      dataIndex: "role",
+      render: (role) => (
         <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
+          <Tag color="geekblue" key={role}>
+            {role.toUpperCase()}
+          </Tag>
         </>
       ),
     },
@@ -65,7 +55,7 @@ export default function App() {
       key: "action",
       render: (render: DataType) => (
         <Space size="middle">
-          <Button onClick={() => setVisible(true)}>Edit</Button>
+          <Button onClick={() => onEditFun(render.key)}>Edit</Button>
           <Button danger onClick={() => confirm(render.key)}>
             Delete
           </Button>
@@ -74,9 +64,24 @@ export default function App() {
     },
   ];
 
-  const data: DataType[] = dataObj.data;
+  const onEditFun = (key: string) => {
+    const editValue = data.find((item) => item.key === key);
+    if (editValue) {
+      editValue.remember = true;
+      editValue.date = dayjs(editValue.date, dateFormat);
+      setUpdateData(editValue);
+    }
+  };
+
+  useEffect(() => {
+    setData(dataObj.data);
+    if (Object.keys(updateData).length > 0) {
+      setVisible(true);
+    }
+  }, [updateData]);
 
   const confirm = (key: string) => {
+    console.log(key, "key");
     Modal.confirm({
       title: "Delete Confirmation",
       content: "Are you sure want to delete!!",
@@ -88,11 +93,18 @@ export default function App() {
       cancelButtonProps: {
         danger: true,
       },
+      onOk: () => {
+        const dataIndex = data.findIndex((item) => item.key === key);
+        if (dataIndex > -1) data.splice(dataIndex, 1);
+        setData(data);
+      },
     });
   };
+
   const onFinish = (value: userForm) => {
-    console.log("Received values of form: ", value);
+    console.log("modal user form  values of form: ", value);
   };
+
   return (
     <>
       <Table columns={columns} dataSource={data} />
@@ -102,36 +114,13 @@ export default function App() {
         onCancel={() => setVisible(false)}
         footer={null}
       >
-        <Form
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          layout="horizontal"
-          initialValues={{ remember: true }}
+        <UserForm
+          labelCol={6}
+          wrapperCol={18}
           onFinish={onFinish}
-        >
-          <InputField
-            label="User Name"
-            name="username"
-            required={true}
-            requiredMessage="Please input your Username!"
-            placeholder="Username"
-          />
-          <InputField
-            label="Email"
-            name="email"
-            type="email"
-            required={true}
-            requiredMessage="Please input your Email!"
-            placeholder="Email"
-          />
-          <DatePickerBox label="DatePicker" name="datepicker" />
-          <ButtonBox
-            btnType="submit"
-            colOffset={6}
-            styleClass="btn-green"
-            text="Create"
-          />
-        </Form>
+          btnText="Edit"
+          intitalData={updateData}
+        />
       </Modal>
     </>
   );

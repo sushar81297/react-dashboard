@@ -33,7 +33,7 @@ export default function SelectBox({
         {datalist.map((data, idx) => {
           return (
             data.name && (
-              <Select.Option key={idx} value={data.name}>
+              <Select.Option key={idx} value={data.key}>
                 {data.name}
               </Select.Option>
             )
