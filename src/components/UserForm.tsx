@@ -3,6 +3,9 @@ import DatePickerBox from "@components/DatePickerBox";
 import { Form } from "antd";
 import InputField from "@components/InputField";
 import SelectBox from "@components/SelectBox";
+import { dateFormat } from "@utils/constant";
+import dayjs from "dayjs";
+import { useEffect } from "react";
 
 interface Props {
   labelCol: number;
@@ -24,8 +27,13 @@ export default function UserForm({
     { name: "Programmer", key: "pm" },
     { name: "Developer", key: "de" },
   ];
+  const [form] = Form.useForm();
+  useEffect(() => {
+    form.setFieldsValue(intitalData);
+  }, [form, intitalData]);
   return (
     <Form
+      form={form}
       initialValues={intitalData}
       labelCol={{ span: labelCol }}
       wrapperCol={{ span: wrapperCol }}
