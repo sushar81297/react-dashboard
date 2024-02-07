@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Dropdown, Input, Row } from "antd";
+import { Avatar, Button, Col, Dropdown, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import {
   LogoutOutlined,
@@ -9,6 +9,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
+import InputField from "@components/InputField";
 import type { MenuProps } from "antd";
 
 interface Props {
@@ -44,6 +45,10 @@ export default function HeaderMenu({
     },
   ];
 
+  const searchFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value, "er");
+  };
+
   return (
     <>
       <Row style={{ padding: "16px", background: themeColor.whiteColor }}>
@@ -58,10 +63,11 @@ export default function HeaderMenu({
           />
         </Col>
         <Col span={6}>
-          <Input
-            className="header-search"
+          <InputField
+            name="header-search"
+            Icon={SearchOutlined}
             placeholder="Type here..."
-            prefix={<SearchOutlined />}
+            handleInput={searchFunc}
           />
         </Col>
         <Col span={8} style={{ direction: "rtl" }}>
