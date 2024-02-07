@@ -1,8 +1,8 @@
-interface userForm {
-  key?: string;
-  username?: string;
+interface UserForm {
+  key: string;
+  name?: string;
   email?: string;
-  datepicker?: moment.Moment;
-  select?: string;
-  remember: boolean;
+  date?: moment.Moment;
+  role?: string;
+  remember?: boolean; // Corrected to boolean type
 }

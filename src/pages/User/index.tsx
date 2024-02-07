@@ -18,8 +18,9 @@ interface DataType {
 
 export default function App() {
   const [visible, setVisible] = useState(false);
-  const [updateData, setUpdateData] = useState({} as userForm);
-  const [data, setData] = useState([] as DataType[]);
+  const [updateData, setUpdateData] = useState({} as UserForm);
+  const [data, setData] = useState<DataType[]>([]);
+
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Name",
@@ -36,7 +37,7 @@ export default function App() {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      // render: (date) => <>{dayjs(date, dateFormat)}</>,
+      render: (date) => <span>{dayjs(date).format(dateFormat)}</span>,
     },
     {
       title: "Role",
@@ -53,10 +54,10 @@ export default function App() {
     {
       title: "Action",
       key: "action",
-      render: (render: DataType) => (
+      render: (record: DataType) => (
         <Space size="middle">
-          <Button onClick={() => onEditFun(render.key)}>Edit</Button>
-          <Button danger onClick={() => confirm(render.key)}>
+          <Button onClick={() => onEditFun(record.key)}>Edit</Button>
+          <Button danger onClick={() => confirm(record.key)}>
             Delete
           </Button>
         </Space>
@@ -67,21 +68,21 @@ export default function App() {
   const onEditFun = (key: string) => {
     const editValue = data.find((item) => item.key === key);
     if (editValue) {
-      editValue.remember = true;
-      editValue.date = dayjs(editValue.date, dateFormat);
-      setUpdateData(editValue);
+      setUpdateData({ ...editValue, date: dayjs(editValue.date, dateFormat) });
+      setVisible(true);
     }
   };
 
   useEffect(() => {
-    setData(dataObj.data);
-    if (Object.keys(updateData).length > 0) {
-      setVisible(true);
-    }
-  }, [updateData]);
+    const newData = dataObj.data.map((item) => ({
+      ...item,
+      remember: true,
+      date: dayjs(item.date, dateFormat),
+    }));
+    setData(newData);
+  }, []);
 
   const confirm = (key: string) => {
-    console.log(key, "key");
     Modal.confirm({
       title: "Delete Confirmation",
       content: "Are you sure want to delete!!",
@@ -94,15 +95,26 @@ export default function App() {
         danger: true,
       },
       onOk: () => {
-        const dataIndex = data.findIndex((item) => item.key === key);
-        if (dataIndex > -1) data.splice(dataIndex, 1);
-        setData(data);
+        const updatedData = data.filter((item) => item.key !== key);
+        setData(updatedData);
       },
     });
   };
 
-  const onFinish = (value: userForm) => {
-    console.log("modal user form  values of form: ", value);
+  const onFinish = (value: UserForm) => {
+    const copyData = [...data];
+    const findIndex = copyData.findIndex((item) => item.key === updateData.key);
+    if (findIndex > -1) {
+      copyData[findIndex] = value;
+      copyData[findIndex].key = updateData.key;
+    }
+    setData(copyData);
+    onCloseFunc();
+  };
+
+  const onCloseFunc = () => {
+    setUpdateData({} as DataType);
+    setVisible(false);
   };
 
   return (
@@ -111,7 +123,7 @@ export default function App() {
       <Modal
         title="Edit User"
         open={visible}
-        onCancel={() => setVisible(false)}
+        onCancel={() => onCloseFunc()}
         footer={null}
       >
         <UserForm

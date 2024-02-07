@@ -3,16 +3,14 @@ import DatePickerBox from "@components/DatePickerBox";
 import { Form } from "antd";
 import InputField from "@components/InputField";
 import SelectBox from "@components/SelectBox";
-import { dateFormat } from "@utils/constant";
-import dayjs from "dayjs";
 import { useEffect } from "react";
 
 interface Props {
   labelCol: number;
   wrapperCol: number;
-  onFinish: (value: userForm) => void;
+  onFinish: (value: UserForm) => void;
   btnText?: string;
-  intitalData: userForm;
+  intitalData: UserForm;
 }
 
 export default function UserForm({
