@@ -1,4 +1,4 @@
-import { Form, Input } from "antd";
+import { Input } from "antd";
 
 interface Props {
   Icon?: any;
@@ -10,26 +10,12 @@ interface Props {
   placeholder?: string;
 }
 
-export default function InputField({
-  Icon,
-  label,
-  name,
-  type,
-  required,
-  requiredMessage,
-  placeholder,
-}: Props) {
+export default function InputField({ Icon, type, placeholder }: Props) {
   return (
-    <Form.Item
-      label={label}
-      name={name}
-      rules={[{ required: required, message: requiredMessage }]}
-    >
-      <Input
-        prefix={Icon && <Icon className="site-form-item-icon" />}
-        type={type}
-        placeholder={placeholder}
-      />
-    </Form.Item>
+    <Input
+      prefix={Icon && <Icon className="site-form-item-icon" />}
+      type={type}
+      placeholder={placeholder}
+    />
   );
 }

@@ -1,5 +1,6 @@
-import { Button, Form } from "antd";
 import { FormEvent, ReactNode } from "react";
+
+import { Button } from "antd";
 
 interface Props {
   colOffset?: number;
@@ -11,23 +12,19 @@ interface Props {
 }
 
 const ButtonBox: React.FC<Props> = ({
-  colOffset,
-  formCss,
   btnType = "submit",
   styleClass,
   text,
   handleBtn,
 }: Props) => {
   return (
-    <Form.Item wrapperCol={{ offset: colOffset }} className={formCss}>
-      <Button
-        htmlType={btnType}
-        className={styleClass}
-        onClick={(e) => handleBtn && handleBtn(e)}
-      >
-        {text}
-      </Button>
-    </Form.Item>
+    <Button
+      htmlType={btnType}
+      className={styleClass}
+      onClick={(e) => handleBtn && handleBtn(e)}
+    >
+      {text}
+    </Button>
   );
 };
 

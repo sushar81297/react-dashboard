@@ -1,8 +1,5 @@
-import ButtonBox from "@components/ButtonBox";
-import DatePickerBox from "@components/DatePickerBox";
-import { Form } from "antd";
-import InputField from "@components/InputField";
-import SelectBox from "@components/SelectBox";
+import { Button, DatePicker, Form, Input, Select } from "antd";
+
 import { useEffect } from "react";
 
 interface Props {
@@ -38,37 +35,45 @@ export default function UserForm({
       layout="horizontal"
       onFinish={onFinish}
     >
-      <InputField
+      <Form.Item
         label="User Name"
         name="name"
-        required={true}
-        requiredMessage="Please input your Username!"
-        placeholder="Username"
-      />
-      <InputField
+        rules={[{ required: true, message: "Please input your Username!" }]}
+      >
+        <Input placeholder="Username" />
+      </Form.Item>
+      <Form.Item
         label="Email"
         name="email"
-        type="email"
-        required={true}
-        requiredMessage="Please input your Email!"
-        placeholder="Email"
-      />
-      <DatePickerBox label="DatePicker" name="date" />
-      <SelectBox
-        datalist={datalist}
+        rules={[{ required: true, message: "Please input your Email!" }]}
+      >
+        <Input placeholder="Email" />
+      </Form.Item>
+      <Form.Item label="DatePicker" name="date">
+        <DatePicker />
+      </Form.Item>
+      <Form.Item
         name="role"
         label="Select"
-        placeholder="Please Select ..."
-        required={true}
-        requiredMessage="Please select.."
-      />
-      <ButtonBox
-        btnType="submit"
-        colOffset={labelCol}
-        styleClass="btn-green"
-        text={btnText}
-        handleBtn={() => ""}
-      />
+        rules={[{ required: true, message: "Please Select ..." }]}
+      >
+        <Select placeholder="Please Select ...">
+          {datalist.map((data, idx) => {
+            return (
+              data.name && (
+                <Select.Option key={idx} value={data.name}>
+                  {data.name}
+                </Select.Option>
+              )
+            );
+          })}
+        </Select>
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: labelCol }}>
+        <Button htmlType="submit" className="btn-green">
+          {btnText}
+        </Button>
+      </Form.Item>
     </Form>
   );
 }

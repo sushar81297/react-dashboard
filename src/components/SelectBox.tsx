@@ -1,4 +1,4 @@
-import { Form, Select } from "antd";
+import { Select } from "antd";
 
 interface DataProps {
   name: string;
@@ -15,31 +15,18 @@ interface Props {
   placeholder?: string;
 }
 
-export default function SelectBox({
-  label,
-  name,
-  required,
-  requiredMessage,
-  datalist,
-  placeholder,
-}: Props) {
+export default function SelectBox({ datalist, placeholder }: Props) {
   return (
-    <Form.Item
-      label={label}
-      name={name}
-      rules={[{ required: required, message: requiredMessage }]}
-    >
-      <Select placeholder={placeholder}>
-        {datalist.map((data, idx) => {
-          return (
-            data.name && (
-              <Select.Option key={idx} value={data.name}>
-                {data.name}
-              </Select.Option>
-            )
-          );
-        })}
-      </Select>
-    </Form.Item>
+    <Select placeholder={placeholder}>
+      {datalist.map((data, idx) => {
+        return (
+          data.name && (
+            <Select.Option key={idx} value={data.name}>
+              {data.name}
+            </Select.Option>
+          )
+        );
+      })}
+    </Select>
   );
 }

@@ -1,4 +1,4 @@
-import { Checkbox, Form } from "antd";
+import { Checkbox } from "antd";
 
 interface Props {
   name: string;
@@ -6,10 +6,6 @@ interface Props {
   checked?: string;
 }
 
-export default function CheckBox({ name, text, checked }: Props) {
-  return (
-    <Form.Item name={name} valuePropName={checked} noStyle>
-      <Checkbox>{text}</Checkbox>
-    </Form.Item>
-  );
+export default function CheckBox({ text }: Props) {
+  return <Checkbox>{text}</Checkbox>;
 }
