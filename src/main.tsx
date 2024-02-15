@@ -1,17 +1,13 @@
-
+import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import ReactDOM from 'react-dom/client'
-import App from '@App.tsx'
-import '@style/_variable.scss'
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { faCheckSquare, faCoffee, faBars } from '@fortawesome/free-solid-svg-icons';
-
-library.add(fab, faCheckSquare, faCoffee, faBars)
+import { Provider } from "react-redux";
+import ReactDOM from "react-dom/client";
+import { store } from "./store/index.ts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
-

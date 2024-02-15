@@ -1,7 +1,9 @@
 import type { TableColumnsType, TableProps } from "antd";
 
+import { RootState } from "@store";
 import { Table } from "antd";
 import dataObj from "@api/setupData.json";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 type OnChange = NonNullable<TableProps<DataType>["onChange"]>;
@@ -20,6 +22,7 @@ interface DataType {
 const data: DataType[] = dataObj.data;
 
 export default function Home() {
+  // const { loginData } = useSelector((state: RootState) => state.item);
   const [filteredInfo, setFilteredInfo] = useState<Filters>({});
   const [sortedInfo, setSortedInfo] = useState<Sorts>({});
 

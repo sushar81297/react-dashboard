@@ -6,3 +6,9 @@ interface UserForm {
   role?: string;
   remember?: boolean; // Corrected to boolean type
 }
+
+interface Login {
+  username?: string;
+  password?: string;
+  remember?: string;
+}

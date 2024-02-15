@@ -10,6 +10,7 @@ import Home from "@pages/Home";
 import Item from "@pages/Item/index";
 import Profile from "@pages/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
+import Report from "@pages/Report/index";
 import User from "@pages/User/index";
 
 export default function RouterRoute() {
@@ -17,6 +18,12 @@ export default function RouterRoute() {
     { path: "home", name: "Home", element: Home },
     { path: "about", name: "About", element: About },
     { path: "profile", name: "Profile", element: Profile },
+    {
+      path: "report",
+      name: "Report",
+      element: Outlet,
+      children: [{ path: "", name: "Report", element: Report }],
+    },
     {
       path: "user",
       name: "User",

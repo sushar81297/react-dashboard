@@ -42,7 +42,10 @@
     text-align: left;
   }
   .ant-form-item-control-input-content {
-    text-align: left;
+    // text-align: left;
+
+    display: flex;
+    justify-content: center;
   }
 
   :where(.css-dev-only-do-not-override-zl9ks2).ant-checkbox-checked

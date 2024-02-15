@@ -1,30 +1,28 @@
+import { Button, Checkbox, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
-import ButtonBox from "@components/ButtonBox";
-import CheckBox from "@components/CheckBox";
-import { Form } from "antd";
-import InputField from "@components/InputField";
+import { loginApi } from "@api/login";
 import logoImg from "@assets/images/logo_image.png";
+import { setLoginData } from "@store/loginSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-interface LoginForm {
-  username?: string;
-  password?: string;
-  remember?: string;
-}
 
 export default function Login() {
   const navigate = useNavigate();
-  const onFinish = (value: LoginForm) => {
-    console.log("Received values of form: ", value);
-    console.log("helloing");
-    navigate("/home");
+  const dispatch = useDispatch();
+
+  const onFinish = async (value: Login) => {
+    const res = await loginApi("apiUrl", value);
+    if (res.code === 200) {
+      dispatch(setLoginData(value));
+      navigate("/home");
+    }
   };
   return (
     <div className="login-container">
       <div>
         <img src={logoImg} />
-        <h2>Sign in</h2>
+        <h2>Sign In</h2>
         <p>Welcome !! Please enter your details below to sign in.</p>
       </div>
       <Form
@@ -33,29 +31,32 @@ export default function Login() {
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
-        <InputField
-          Icon={UserOutlined}
-          name="username"
-          required={true}
-          requiredMessage="Please input your Username!"
-          placeholder="Username"
-        />
-        <InputField
-          Icon={LockOutlined}
+        <Form.Item
+          name="name"
+          rules={[{ required: true, message: "Please input your Username!" }]}
+        >
+          <Input
+            placeholder="Username"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+          />
+        </Form.Item>
+        <Form.Item
           name="password"
-          required={true}
-          type="password"
-          requiredMessage="Please input your Password!"
-          placeholder="Password"
-        />
-        <CheckBox name="remember" checked="checked" text="Remember me?" />
-
-        <ButtonBox
-          btnType="submit"
-          formCss="button-container"
-          styleClass="button-container btn-green"
-          text="Login"
-        />
+          rules={[{ required: true, message: "Please input your Username!" }]}
+        >
+          <Input.Password
+            placeholder="Password"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
+        </Form.Item>
+        <Form.Item name="remember" valuePropName="checked">
+          <Checkbox>Remember me?</Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" className="button-container btn-green">
+            Login
+          </Button>
+        </Form.Item>
         <p>
           Don't have an account?
           <a href="/register" className="signup">

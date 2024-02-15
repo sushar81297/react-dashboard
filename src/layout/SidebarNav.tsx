@@ -2,6 +2,8 @@ import {
   AppstoreAddOutlined,
   AppstoreOutlined,
   HomeOutlined,
+  PicRightOutlined,
+  SolutionOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
@@ -33,39 +35,51 @@ export default function Sidebar({ collapsed, themeColor }: Props) {
       label: <Link to="/home">Home</Link>,
     },
     {
-      key: "/usertag",
-      icon: <UserAddOutlined style={{ fontSize: "20px" }} type="setting" />,
-      label: "Manage User",
+      key: "/reporttag",
+      icon: <SolutionOutlined style={{ fontSize: "20px" }} type="setting" />,
+      label: "Manage Report",
       children: [
         {
-          key: "/user",
-          icon: <UserAddOutlined />,
-          label: <Link to="/user">Users</Link>,
-        },
-        {
-          key: "/user/create",
-          icon: <UserAddOutlined />,
-          label: <Link to="/user/create">Create</Link>,
+          key: "/report",
+          icon: <PicRightOutlined />,
+          label: <Link to="/report">Report</Link>,
         },
       ],
     },
-    {
-      key: "/itemtag",
-      icon: <AppstoreOutlined style={{ fontSize: "20px" }} type="setting" />,
-      label: "Manage Item",
-      children: [
-        {
-          key: "/item",
-          icon: <AppstoreOutlined />,
-          label: <Link to="/item">Items</Link>,
-        },
-        {
-          key: "/item/create",
-          icon: <AppstoreAddOutlined />,
-          label: <Link to="/item/create">Create</Link>,
-        },
-      ],
-    },
+    // {
+    //   key: "/usertag",
+    //   icon: <UserAddOutlined style={{ fontSize: "20px" }} type="setting" />,
+    //   label: "Manage User",
+    //   children: [
+    //     {
+    //       key: "/user",
+    //       icon: <UserAddOutlined />,
+    //       label: <Link to="/user">Users</Link>,
+    //     },
+    //     {
+    //       key: "/user/create",
+    //       icon: <UserAddOutlined />,
+    //       label: <Link to="/user/create">Create</Link>,
+    //     },
+    //   ],
+    // },
+    // {
+    //   key: "/itemtag",
+    //   icon: <AppstoreOutlined style={{ fontSize: "20px" }} type="setting" />,
+    //   label: "Manage Item",
+    //   children: [
+    //     {
+    //       key: "/item",
+    //       icon: <AppstoreOutlined />,
+    //       label: <Link to="/item">Items</Link>,
+    //     },
+    //     {
+    //       key: "/item/create",
+    //       icon: <AppstoreAddOutlined />,
+    //       label: <Link to="/item/create">Create</Link>,
+    //     },
+    //   ],
+    // },
   ];
   return (
     // <Sider breakpoint="lg" width={250} style={{ background: primaryColor}} collapsedWidth="0" collapsible collapsed={collapsed}>
