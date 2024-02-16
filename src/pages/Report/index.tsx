@@ -73,6 +73,7 @@ export default function App() {
   ];
 
   const detailFunc = async (id: string) => {
+    setLoading(true);
     const detailData = await getOrderById(id);
     let total = 0;
     detailData?.order_details.map((order: OrderDetail) => {
@@ -80,6 +81,7 @@ export default function App() {
     });
     setOrder(detailData.order_details);
     setTotalAmt(total);
+    setLoading(false);
     setVisible(true);
   };
 
