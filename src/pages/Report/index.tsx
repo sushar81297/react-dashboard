@@ -83,8 +83,8 @@ export default function App() {
     setVisible(true);
   };
 
-  const fetchData = async (pageNumber?: number, pageSize?: number) => {
-    const updatedData = await getOrderData(pageNumber, pageSize);
+  const fetchData = async (searchParam: FilterReportData) => {
+    const updatedData = await getOrderData(searchParam);
     const data = updatedData.orders.data.map(
       (item: OrderData, index: number) => ({
         ...item,
@@ -100,7 +100,7 @@ export default function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetchData();
+    fetchData({ pageNumber: 0, pageSize: 10 });
   }, []);
 
   const onCloseFunc = () => {
@@ -109,7 +109,7 @@ export default function App() {
 
   const onChange = async (pageNumber: number, pageSize: number) => {
     setLoading(true);
-    fetchData(pageNumber - 1, pageSize);
+    fetchData({ pageNumber: pageNumber - 1, pageSize });
   };
 
   const onShowSizeChange: PaginationProps["onShowSizeChange"] = (
@@ -117,41 +117,43 @@ export default function App() {
     pageSize
   ) => {
     setLoading(true);
-    fetchData(current, pageSize);
+    fetchData({ pageNumber: current, pageSize });
   };
 
-  const onFinish = () => {};
+  const onFinish = (value: FilterReportData) => {
+    console.log(value, "vaee");
+  };
 
   return (
     <>
       <Form className="form" onFinish={onFinish} autoComplete="off">
         <Flex align="center" justify="center" gap={15}>
-          <Form.Item name="buyer_code">
+          <Form.Item name="buyerCode" label="Buyer Code">
             <Input placeholder="Buyer Code" />
           </Form.Item>
-          <Form.Item name="buyer_name">
+          <Form.Item name="buyerName" label="Buyer Name">
             <Input placeholder="Buyer Name" />
           </Form.Item>
-          <Form.Item name="buyer_phone">
+          <Form.Item name="buyerPhone" label="Buyer Phone">
             <Input placeholder="Buyer Phone Number" />
           </Form.Item>
         </Flex>
         <Flex align="center" justify="center" gap={15}>
-          <Form.Item name="seller_code">
+          <Form.Item name="sellerCode" label="Seller Code">
             <Input placeholder="Seller Code" />
           </Form.Item>
-          <Form.Item name="seller_name">
+          <Form.Item name="sellerName" label="Seller Name">
             <Input placeholder="Seller Name" />
           </Form.Item>
-          <Form.Item name="seller_phone">
+          <Form.Item name="sellerPhone" label="Seller Phone">
             <Input placeholder="Seller Phone Number" />
           </Form.Item>
         </Flex>
         <Flex align="center" justify="center" gap={15}>
-          <Form.Item name="net_amount">
-            <Input placeholder="Net Amount" />
+          <Form.Item name="netAmount" label="Net Amount">
+            <Input placeholder="Net Amount" type="number" />
           </Form.Item>
-          <Form.Item name="order_date">
+          <Form.Item name="orderDate" label="Order Date">
             <Input placeholder="Order Date" />
           </Form.Item>
           <Form.Item>

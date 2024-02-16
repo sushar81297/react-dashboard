@@ -40,3 +40,16 @@ interface OrderResponse {
   pageSize: number | undefined;
   currentPage: number;
 }
+
+interface FilterReportData {
+  buyerCode?: string;
+  buyerName?: string;
+  buyerPhone?: string;
+  sellerCode?: string;
+  sellerName?: string;
+  sellerPhone?: string;
+  netAmount?: number;
+  orderDate?: string;
+  pageNumber: number;
+  pageSize: number;
+}
