@@ -1,119 +1,84 @@
-import { Button, Modal, Space, Table, Tag } from "antd";
+import { Button, Modal, Space, Table } from "antd";
+import { getOrderById, getOrderData } from "@api/order";
 import { useEffect, useState } from "react";
 
 import type { TableProps } from "antd";
-import UserForm from "@components/UserForm";
-import dataObj from "@api/setupData.json";
 import { dateFormat } from "@utils/constant.ts";
 import dayjs from "dayjs";
 
-interface DataType {
-  remember: boolean;
-  date: dayjs.Dayjs;
-  key: string;
-  name: string;
-  role: string;
-  email: string;
-}
-
 export default function App() {
   const [visible, setVisible] = useState(false);
-  const [updateData, setUpdateData] = useState({} as UserForm);
-  const [data, setData] = useState<DataType[]>([]);
+  const [data, setData] = useState<OrderData[]>([]);
+  const [order, setOrder] = useState([] as OrderDetail[]);
+  const [totalAmt, setTotalAmt] = useState(0);
 
-  const columns: TableProps<DataType>["columns"] = [
+  const columns: TableProps<OrderData>["columns"] = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
+      title: "Seller Merchant",
+      dataIndex: "seller_merchant",
+      key: "seller_merchant",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Buyer Merchant",
+      dataIndex: "buyer_merchant",
+      key: "buyer_merchant",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (date) => <span>{dayjs(date).format(dateFormat)}</span>,
+      title: "Buyer Phone Number",
+      dataIndex: "buyer_phone",
+      key: "buyer_phone",
     },
+
     {
-      title: "Role",
-      key: "role",
-      dataIndex: "role",
-      render: (role) => (
-        <>
-          <Tag color="geekblue" key={role}>
-            {role.toUpperCase()}
-          </Tag>
-        </>
+      title: "Net Amount",
+      dataIndex: "net_amount",
+      key: "net_amount",
+    },
+
+    {
+      title: "Order Date",
+      dataIndex: "order_date",
+      key: "order_date",
+      render: (order_date) => (
+        <span>{dayjs(order_date).format(dateFormat)}</span>
       ),
     },
     {
       title: "Action",
       key: "action",
-      render: (record: DataType) => (
+      render: (record: OrderData) => (
         <Space size="middle">
-          <Button onClick={() => onEditFun(record.key)}>Edit</Button>
-          <Button danger onClick={() => confirm(record.key)}>
-            Delete
-          </Button>
+          <Button onClick={() => detailFunc(record.id)}>Order Detail</Button>
         </Space>
       ),
     },
   ];
 
-  const onEditFun = (key: string) => {
-    const editValue = data.find((item) => item.key === key);
-    if (editValue) {
-      setUpdateData({ ...editValue, date: dayjs(editValue.date, dateFormat) });
-      setVisible(true);
-    }
+  const detailFunc = async (id: string) => {
+    const detailData = await getOrderById(id);
+    let total = 0;
+    detailData?.order_details.map((order: OrderDetail) => {
+      total += order.total_amount;
+    });
+    setOrder(detailData.order_details);
+    setTotalAmt(total);
+    setVisible(true);
+  };
+
+  const fetchData = async () => {
+    let updatedData = await getOrderData();
+    updatedData = updatedData.orders.data.map((item: OrderData) => ({
+      ...item,
+      key: item.id,
+    }));
+    setData(updatedData as OrderData[]);
   };
 
   useEffect(() => {
-    const newData = dataObj.data.map((item) => ({
-      ...item,
-      remember: true,
-      date: dayjs(item.date, dateFormat),
-    }));
-    setData(newData);
+    fetchData();
   }, []);
 
-  const confirm = (key: string) => {
-    Modal.confirm({
-      title: "Delete Confirmation",
-      content: "Are you sure want to delete!!",
-      okText: "Yes",
-      cancelText: "Cancel",
-      okButtonProps: {
-        danger: true,
-      },
-      cancelButtonProps: {
-        danger: true,
-      },
-      onOk: () => {
-        const updatedData = data.filter((item) => item.key !== key);
-        setData(updatedData);
-      },
-    });
-  };
-
-  const onFinish = (value: UserForm) => {
-    const copyData = [...data];
-    const findIndex = copyData.findIndex((item) => item.key === updateData.key);
-    if (findIndex > -1) {
-      copyData[findIndex] = value;
-      copyData[findIndex].key = updateData.key;
-    }
-    setData(copyData);
-    onCloseFunc();
-  };
-
   const onCloseFunc = () => {
-    setUpdateData({} as DataType);
     setVisible(false);
   };
 
@@ -121,18 +86,43 @@ export default function App() {
     <>
       <Table columns={columns} dataSource={data} />
       <Modal
-        title="Edit User"
+        title="Order Detail"
         open={visible}
         onCancel={() => onCloseFunc()}
         footer={null}
       >
-        <UserForm
-          labelCol={6}
-          wrapperCol={18}
-          onFinish={onFinish}
-          btnText="Edit"
-          intitalData={updateData}
-        />
+        <h3>Order Items:</h3>
+        <div className="order-list">
+          <ol>
+            {order &&
+              order.map((itemData: OrderDetail, index: number) => (
+                <li key={index}>
+                  <div>
+                    <strong>{itemData?.item.display_name}</strong>
+                    <strong className="order-price">
+                      {itemData?.total_amount}MMK
+                    </strong>
+                  </div>
+                  <div>
+                    <strong>Quantity:</strong> {itemData.quantity}
+                  </div>
+                  <div>
+                    <strong>Price:</strong> {itemData.amount}MMK
+                  </div>
+                </li>
+              ))}
+          </ol>
+        </div>
+        <h3 className="total-amt">
+          Total Amount
+          <strong className="order-price">{totalAmt}MMK</strong>
+        </h3>
+
+        <div className="order-btn-container">
+          <Button onClick={onCloseFunc} className="btn-green order-btn">
+            OK
+          </Button>
+        </div>
       </Modal>
     </>
   );

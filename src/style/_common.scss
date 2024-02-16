@@ -137,3 +137,27 @@
   .anticon {
   font-size: 25px;
 }
+
+// order detail list
+div.order-btn-container {
+  display: flex;
+  justify-content: center;
+  .order-btn {
+    padding: 0 30px;
+    margin-top: 10px;
+  }
+}
+.order-price {
+  float: right;
+}
+div.order-list {
+  padding: 20px;
+  max-height: 50vh;
+  overflow: auto;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+}
+h3.total-amt {
+  border: 1px solid $primary-color;
+  margin-top: 10px;
+  padding: 5px 10px;
+}
