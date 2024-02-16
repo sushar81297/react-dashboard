@@ -33,3 +33,10 @@ interface OrderDetail {
   quantity: number;
   total_amount: number;
 }
+
+interface OrderResponse {
+  data: OrderData[];
+  totalElements: number | undefined;
+  pageSize: number | undefined;
+  currentPage: number;
+}

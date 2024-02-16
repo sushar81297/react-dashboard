@@ -62,7 +62,7 @@ export default function HeaderMenu({
             }}
           />
         </Col>
-        <Col span={6}>
+        {/* <Col span={6}>
           <InputField
             name="header-search"
             Icon={SearchOutlined}
@@ -70,7 +70,8 @@ export default function HeaderMenu({
             handleInput={searchFunc}
           />
         </Col>
-        <Col span={8} style={{ direction: "rtl" }}>
+        <Col span={8} style={{ direction: "rtl" }}> */}
+        <Col span={14} style={{ direction: "rtl" }}>
           <Row>
             <Col span={4}>
               <Dropdown menu={{ items }} placement="bottomRight" arrow>

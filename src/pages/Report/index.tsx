@@ -1,7 +1,18 @@
-import { Button, Modal, Pagination, Space, Table } from "antd";
+import {
+  Button,
+  Flex,
+  Form,
+  Input,
+  Modal,
+  Pagination,
+  Space,
+  Table,
+} from "antd";
 import { getOrderById, getOrderData } from "@api/order";
 import { useEffect, useState } from "react";
 
+import type { PaginationProps } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import type { TableProps } from "antd";
 import { dateFormat } from "@utils/constant.ts";
 import dayjs from "dayjs";
@@ -9,11 +20,17 @@ import dayjs from "dayjs";
 export default function App() {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({} as OrderResponse);
   const [order, setOrder] = useState([] as OrderDetail[]);
   const [totalAmt, setTotalAmt] = useState(0);
 
   const columns: TableProps<OrderData>["columns"] = [
+    {
+      title: "No.",
+      dataIndex: "key",
+      key: "key",
+      align: "center",
+    },
     {
       title: "Seller Merchant",
       dataIndex: "seller_merchant",
@@ -66,12 +83,16 @@ export default function App() {
     setVisible(true);
   };
 
-  const fetchData = async (pageNumber?: number) => {
-    const updatedData = await getOrderData(pageNumber);
-    const data = updatedData.orders.data.map((item: OrderData) => ({
-      ...item,
-      key: item.id,
-    }));
+  const fetchData = async (pageNumber?: number, pageSize?: number) => {
+    const updatedData = await getOrderData(pageNumber, pageSize);
+    const data = updatedData.orders.data.map(
+      (item: OrderData, index: number) => ({
+        ...item,
+        key:
+          updatedData.orders.currentPage * updatedData.orders.pageSize +
+          (index + 1),
+      })
+    );
     setLoading(false);
     updatedData.orders.data = data;
     setData(updatedData.orders);
@@ -86,13 +107,61 @@ export default function App() {
     setVisible(false);
   };
 
-  const onChange = async (pageNumber: number) => {
+  const onChange = async (pageNumber: number, pageSize: number) => {
     setLoading(true);
-    fetchData(pageNumber - 1);
+    fetchData(pageNumber - 1, pageSize);
   };
+
+  const onShowSizeChange: PaginationProps["onShowSizeChange"] = (
+    current,
+    pageSize
+  ) => {
+    setLoading(true);
+    fetchData(current, pageSize);
+  };
+
+  const onFinish = () => {};
 
   return (
     <>
+      <Form className="form" onFinish={onFinish} autoComplete="off">
+        <Flex align="center" justify="center" gap={15}>
+          <Form.Item name="buyer_code">
+            <Input placeholder="Buyer Code" />
+          </Form.Item>
+          <Form.Item name="buyer_name">
+            <Input placeholder="Buyer Name" />
+          </Form.Item>
+          <Form.Item name="buyer_phone">
+            <Input placeholder="Buyer Phone Number" />
+          </Form.Item>
+        </Flex>
+        <Flex align="center" justify="center" gap={15}>
+          <Form.Item name="seller_code">
+            <Input placeholder="Seller Code" />
+          </Form.Item>
+          <Form.Item name="seller_name">
+            <Input placeholder="Seller Name" />
+          </Form.Item>
+          <Form.Item name="seller_phone">
+            <Input placeholder="Seller Phone Number" />
+          </Form.Item>
+        </Flex>
+        <Flex align="center" justify="center" gap={15}>
+          <Form.Item name="net_amount">
+            <Input placeholder="Net Amount" />
+          </Form.Item>
+          <Form.Item name="order_date">
+            <Input placeholder="Order Date" />
+          </Form.Item>
+          <Form.Item>
+            <Button className="btn-green" htmlType="submit">
+              <SearchOutlined />
+            </Button>
+          </Form.Item>
+        </Flex>
+      </Form>
+
       <Table
         columns={columns}
         dataSource={data?.data ? data?.data : []}
@@ -101,6 +170,8 @@ export default function App() {
       />
       <Pagination
         className="pagination"
+        showSizeChanger
+        onShowSizeChange={onShowSizeChange}
         defaultCurrent={data?.currentPage ? data?.currentPage + 1 : 1}
         defaultPageSize={data?.pageSize}
         total={data?.totalElements}

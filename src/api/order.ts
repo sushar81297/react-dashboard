@@ -2,10 +2,10 @@ import axios from "axios";
 
 const baseurl = import.meta.env.VITE_API_URL as string;
 
-export async function getOrderData(pageNumber = 0) {
+export async function getOrderData(pageNumber = 0, pageSize = 10) {
   try {
     const response = await axios.get(
-      `${baseurl}/order?filter=&page=${pageNumber}&page_size=10`
+      `${baseurl}/order?filter=&page=${pageNumber}&page_size=${pageSize}`
     );
     return response.data.data;
   } catch (error) {
