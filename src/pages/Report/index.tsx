@@ -1,4 +1,4 @@
-import { Button, Modal, Space, Table } from "antd";
+import { Button, Modal, Pagination, Space, Table } from "antd";
 import { getOrderById, getOrderData } from "@api/order";
 import { useEffect, useState } from "react";
 
@@ -8,7 +8,8 @@ import dayjs from "dayjs";
 
 export default function App() {
   const [visible, setVisible] = useState(false);
-  const [data, setData] = useState<OrderData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({});
   const [order, setOrder] = useState([] as OrderDetail[]);
   const [totalAmt, setTotalAmt] = useState(0);
 
@@ -65,16 +66,19 @@ export default function App() {
     setVisible(true);
   };
 
-  const fetchData = async () => {
-    let updatedData = await getOrderData();
-    updatedData = updatedData.orders.data.map((item: OrderData) => ({
+  const fetchData = async (pageNumber?: number) => {
+    const updatedData = await getOrderData(pageNumber);
+    const data = updatedData.orders.data.map((item: OrderData) => ({
       ...item,
       key: item.id,
     }));
-    setData(updatedData as OrderData[]);
+    setLoading(false);
+    updatedData.orders.data = data;
+    setData(updatedData.orders);
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchData();
   }, []);
 
@@ -82,9 +86,30 @@ export default function App() {
     setVisible(false);
   };
 
+  const onChange = async (pageNumber: number) => {
+    setLoading(true);
+    fetchData(pageNumber - 1);
+  };
+
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={data?.data ? data?.data : []}
+        loading={loading}
+        pagination={false}
+      />
+      <Pagination
+        className="pagination"
+        defaultCurrent={data?.currentPage ? data?.currentPage + 1 : 1}
+        defaultPageSize={data?.pageSize}
+        total={data?.totalElements}
+        showTotal={(total, range) =>
+          `${range[0]}-${range[1]} of ${total} items`
+        }
+        responsive={true}
+        onChange={onChange}
+      />
       <Modal
         title="Order Detail"
         open={visible}
