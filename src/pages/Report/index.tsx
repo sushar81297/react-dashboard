@@ -147,7 +147,13 @@ export default function App() {
       },
       {
         key: "toDate",
-        value: value.toDate ? dayjs(value.toDate).format(dateFormat) : "",
+        value: value.toDate
+          ? dayjs(value.toDate)
+              .hour(23)
+              .minute(59)
+              .second(59)
+              .format(dateFormat)
+          : "",
       },
     ].filter((param) => param.value !== "" && param.value !== undefined);
     fetchData({ filter: params, pageNumber: 0, pageSize: 10 });
