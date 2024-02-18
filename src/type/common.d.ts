@@ -41,7 +41,7 @@ interface OrderResponse {
   currentPage: number;
 }
 
-interface FilterReportData {
+interface ReportData {
   buyerCode?: string;
   buyerName?: string;
   buyerPhone?: string;
@@ -50,6 +50,16 @@ interface FilterReportData {
   sellerPhone?: string;
   netAmount?: number;
   orderDate?: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
+interface searchParam {
+  key: string;
+  value: string;
+}
+interface FilterReportData {
+  filter?: searchParam[];
   pageNumber: number;
   pageSize: number;
 }

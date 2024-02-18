@@ -122,8 +122,18 @@ export default function App() {
     fetchData({ pageNumber: current, pageSize });
   };
 
-  const onFinish = (value: FilterReportData) => {
-    console.log(value, "vaee");
+  const onFinish = (value: ReportData) => {
+    const params: searchParam[] = [
+      { key: "buyer.merchantCode", value: value.buyerCode },
+      { key: "buyer.name", value: value.buyerName },
+      { key: "buyer.phoneNumber", value: value.buyerPhone },
+      { key: "seller.merchantCode", value: value.sellerCode },
+      { key: "seller.name", value: value.sellerName },
+      { key: "seller.phoneNumber", value: value.sellerPhone },
+      { key: "netAmount", value: value.netAmount },
+      // { key: "orderDate", value: dayjs(value.orderDate).format(dateFormat) },
+    ].filter((param) => param.value !== "" && param.value !== undefined);
+    fetchData({ filter: params, pageNumber: 0, pageSize: 10 });
   };
 
   return (
