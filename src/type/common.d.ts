@@ -48,15 +48,17 @@ interface ReportData {
   sellerCode?: string;
   sellerName?: string;
   sellerPhone?: string;
-  netAmount?: number;
-  orderDate?: string;
+  minAmount?: number;
+  maxAmount?: number;
+  fromDate?: string;
+  toDate?: string;
   pageNumber: number;
   pageSize: number;
 }
 
-interface searchParam {
+interface SearchParam {
   key: string;
-  value: string;
+  value: string | number | undefined;
 }
 interface FilterReportData {
   filter?: searchParam[];

@@ -1,5 +1,6 @@
 import {
   Button,
+  DatePicker,
   Flex,
   Form,
   Input,
@@ -87,17 +88,25 @@ export default function App() {
 
   const fetchData = async (searchParam: FilterReportData) => {
     const updatedData = await getOrderData(searchParam);
-    const data = updatedData.orders.data.map(
-      (item: OrderData, index: number) => ({
-        ...item,
-        key:
-          updatedData.orders.currentPage * updatedData.orders.pageSize +
-          (index + 1),
-      })
-    );
-    setLoading(false);
-    updatedData.orders.data = data;
-    setData(updatedData.orders);
+    if (
+      updatedData &&
+      updatedData?.orders?.data &&
+      updatedData?.orders?.data.length > 0
+    ) {
+      const data = updatedData.orders.data.map(
+        (item: OrderData, index: number) => ({
+          ...item,
+          key:
+            updatedData.orders.currentPage * updatedData.orders.pageSize +
+            (index + 1),
+        })
+      );
+      setLoading(false);
+      updatedData.orders.data = data;
+      setData(updatedData.orders);
+    } else {
+      setData({} as OrderResponse);
+    }
   };
 
   useEffect(() => {
@@ -123,15 +132,23 @@ export default function App() {
   };
 
   const onFinish = (value: ReportData) => {
-    const params: searchParam[] = [
+    const params: SearchParam[] = [
       { key: "buyer.merchantCode", value: value.buyerCode },
       { key: "buyer.name", value: value.buyerName },
       { key: "buyer.phoneNumber", value: value.buyerPhone },
       { key: "seller.merchantCode", value: value.sellerCode },
       { key: "seller.name", value: value.sellerName },
       { key: "seller.phoneNumber", value: value.sellerPhone },
-      { key: "netAmount", value: value.netAmount },
-      // { key: "orderDate", value: dayjs(value.orderDate).format(dateFormat) },
+      { key: "minAmount", value: value.minAmount },
+      { key: "maxAmount", value: value.maxAmount },
+      {
+        key: "fromDate",
+        value: value.fromDate ? dayjs(value.fromDate).format(dateFormat) : "",
+      },
+      {
+        key: "toDate",
+        value: value.toDate ? dayjs(value.toDate).format(dateFormat) : "",
+      },
     ].filter((param) => param.value !== "" && param.value !== undefined);
     fetchData({ filter: params, pageNumber: 0, pageSize: 10 });
   };
@@ -162,11 +179,17 @@ export default function App() {
           </Form.Item>
         </Flex>
         <Flex align="center" justify="center" gap={15}>
-          <Form.Item name="netAmount" label="Net Amount">
-            <Input placeholder="Net Amount" type="number" />
+          <Form.Item name="minAmount" label="Minimum Net Amount">
+            <Input placeholder="Minimum Net Amount" type="number" />
           </Form.Item>
-          <Form.Item name="orderDate" label="Order Date">
-            <Input placeholder="Order Date" />
+          <Form.Item name="maxAmount" label="Maximum Net Amount">
+            <Input placeholder="Maximum Net Amount" type="number" />
+          </Form.Item>
+          <Form.Item name="fromDate" label="Order Date">
+            <DatePicker placeholder="From Order Date" />
+          </Form.Item>
+          <Form.Item name="toDate" label="Order Date">
+            <DatePicker placeholder="To Order Date" />
           </Form.Item>
           <Form.Item>
             <Button className="btn-green" htmlType="submit">
