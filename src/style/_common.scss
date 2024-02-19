@@ -169,3 +169,10 @@ h3.total-amt {
   justify-content: end;
   margin-top: 30px;
 }
+
+// report
+.report-form {
+  background: $primary-color;
+  transition: opacity 2s linear;
+  position: relative;
+}

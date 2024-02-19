@@ -9,7 +9,7 @@ import {
   Space,
   Table,
 } from "antd";
-import { getOrderById, getOrderData } from "@api/order";
+import { getOrderById, getOrderData } from "@api/report";
 import { useEffect, useState } from "react";
 
 import type { PaginationProps } from "antd";
@@ -24,6 +24,7 @@ export default function App() {
   const [data, setData] = useState({} as OrderResponse);
   const [order, setOrder] = useState([] as OrderDetail[]);
   const [totalAmt, setTotalAmt] = useState(0);
+  const [filterReport, setFilterReport] = useState({} as FilterReportData);
 
   const columns: TableProps<OrderData>["columns"] = [
     {
@@ -119,16 +120,20 @@ export default function App() {
   };
 
   const onChange = async (pageNumber: number, pageSize: number) => {
-    setLoading(true);
-    fetchData({ pageNumber: pageNumber - 1, pageSize });
+    const filter = filterReport;
+    filter.pageNumber = pageNumber - 1;
+    filter.pageSize = pageSize;
+    filterReportFunc(filter);
   };
 
   const onShowSizeChange: PaginationProps["onShowSizeChange"] = (
     current,
     pageSize
   ) => {
-    setLoading(true);
-    fetchData({ pageNumber: current, pageSize });
+    const filter = filterReport;
+    filter.pageNumber = current;
+    filter.pageSize = pageSize;
+    filterReportFunc(filter);
   };
 
   const onFinish = (value: ReportData) => {
@@ -156,7 +161,13 @@ export default function App() {
           : "",
       },
     ].filter((param) => param.value !== "" && param.value !== undefined);
-    fetchData({ filter: params, pageNumber: 0, pageSize: 10 });
+    filterReportFunc({ filter: params, pageNumber: 0, pageSize: 10 });
+  };
+
+  const filterReportFunc = (filter: FilterReportData) => {
+    setFilterReport(filter);
+    setLoading(true);
+    fetchData(filter);
   };
 
   return (
