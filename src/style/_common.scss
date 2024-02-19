@@ -172,7 +172,14 @@ h3.total-amt {
 
 // report
 .report-form {
-  background: $primary-color;
-  transition: opacity 2s linear;
-  position: relative;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
 }

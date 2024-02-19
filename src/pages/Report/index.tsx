@@ -25,6 +25,7 @@ export default function App() {
   const [order, setOrder] = useState([] as OrderDetail[]);
   const [totalAmt, setTotalAmt] = useState(0);
   const [filterReport, setFilterReport] = useState({} as FilterReportData);
+  const [showForm, setShowForm] = useState(false);
 
   const columns: TableProps<OrderData>["columns"] = [
     {
@@ -170,51 +171,72 @@ export default function App() {
     fetchData(filter);
   };
 
+  const toggleSearch = () => {
+    setShowForm(!showForm);
+  };
+
   return (
     <>
-      <Form className="form" onFinish={onFinish} autoComplete="off">
-        <Flex align="center" justify="center" gap={15}>
-          <Form.Item name="buyerCode" label="Buyer Code">
+      <div className="report-form">
+        <Form
+          className={`form report ${showForm ? "show" : "hide"}`}
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Flex align="center" justify="center" gap={15}>
+            {/* <Form.Item name="buyerCode" label="Buyer Code">
             <Input placeholder="Buyer Code" />
-          </Form.Item>
-          <Form.Item name="buyerName" label="Buyer Name">
-            <Input placeholder="Buyer Name" />
-          </Form.Item>
-          <Form.Item name="buyerPhone" label="Buyer Phone">
-            <Input placeholder="Buyer Phone Number" />
-          </Form.Item>
-        </Flex>
-        <Flex align="center" justify="center" gap={15}>
-          <Form.Item name="sellerCode" label="Seller Code">
+          </Form.Item> */}
+            <Form.Item name="buyerName" label="Buyer Name">
+              <Input placeholder="Buyer Name" />
+            </Form.Item>
+            <Form.Item name="buyerPhone" label="Buyer Phone">
+              <Input placeholder="Buyer Phone Number" />
+            </Form.Item>
+            {/* </Flex>
+        <Flex align="center" justify="center" gap={15}> */}
+            {/* <Form.Item name="sellerCode" label="Seller Code">
             <Input placeholder="Seller Code" />
-          </Form.Item>
-          <Form.Item name="sellerName" label="Seller Name">
-            <Input placeholder="Seller Name" />
-          </Form.Item>
-          <Form.Item name="sellerPhone" label="Seller Phone">
-            <Input placeholder="Seller Phone Number" />
-          </Form.Item>
-        </Flex>
-        <Flex align="center" justify="center" gap={15}>
-          <Form.Item name="minAmount" label="Minimum Net Amount">
-            <Input placeholder="Minimum Net Amount" type="number" />
-          </Form.Item>
-          <Form.Item name="maxAmount" label="Maximum Net Amount">
-            <Input placeholder="Maximum Net Amount" type="number" />
-          </Form.Item>
-          <Form.Item name="fromDate" label="Order Date">
-            <DatePicker placeholder="From Order Date" />
-          </Form.Item>
-          <Form.Item name="toDate" label="Order Date">
-            <DatePicker placeholder="To Order Date" />
-          </Form.Item>
-          <Form.Item>
-            <Button className="btn-green" htmlType="submit">
-              <SearchOutlined />
-            </Button>
-          </Form.Item>
-        </Flex>
-      </Form>
+          </Form.Item> */}
+            <Form.Item name="sellerName" label="Seller Name">
+              <Input placeholder="Seller Name" />
+            </Form.Item>
+            <Form.Item name="sellerPhone" label="Seller Phone">
+              <Input placeholder="Seller Phone Number" />
+            </Form.Item>
+          </Flex>
+          <Flex align="center" justify="center" gap={15}>
+            <Form.Item name="minAmount" label="Minimum Net Amount">
+              <Input placeholder="Minimum Net Amount" type="number" />
+            </Form.Item>
+            <Form.Item name="maxAmount" label="Maximum Net Amount">
+              <Input placeholder="Maximum Net Amount" type="number" />
+            </Form.Item>
+            <Form.Item name="fromDate" label="Order Date">
+              <DatePicker placeholder="From Order Date" />
+            </Form.Item>
+            <Form.Item name="toDate" label="Order Date">
+              <DatePicker placeholder="To Order Date" />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                className="btn-green"
+                htmlType="submit"
+                onClick={toggleSearch}
+              >
+                <SearchOutlined />
+              </Button>
+            </Form.Item>
+          </Flex>
+        </Form>
+        <Button
+          className={`btn-green ${showForm ? "hide" : "show"}`}
+          htmlType="submit"
+          onClick={toggleSearch}
+        >
+          <SearchOutlined />
+        </Button>
+      </div>
 
       <Table
         columns={columns}
